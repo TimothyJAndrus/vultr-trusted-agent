@@ -1,0 +1,46 @@
+# Action policy for the sandboxed agent (agent-guardrails format).
+# Default deny: a tool not named here cannot run. Most restrictive matching rule wins.
+version: 1
+default: deny
+
+approval:
+  expires_in: 600
+
+limits:
+  max_calls_per_run: 15     # runaway-loop backstop
+
+rules:
+  - id: shell-in-sandbox
+    tool: run_shell
+    effect: allow
+    when:
+      cmd: {max_length: 2000}
+    description: ordinary commands run in the disposable sandbox
+
+  - id: destructive-needs-human
+    tool: run_shell
+    effect: approve
+    when:
+      cmd: {glob: "*rm -*"}
+    description: anything that deletes files waits for a human
+
+  - id: no-exfil-tools
+    tool: run_shell
+    effect: deny
+    when:
+      cmd: {glob: "*curl *"}
+    description: no outbound transfer tools (the sandbox has no network anyway)
+
+  - id: no-wget
+    tool: run_shell
+    effect: deny
+    when:
+      cmd: {glob: "*wget *"}
+    description: no outbound transfer tools
+
+  - id: write-in-workdir
+    tool: write_file
+    effect: allow
+    when:
+      path: {starts_with: "/work/"}
+    description: files may only be written under /work

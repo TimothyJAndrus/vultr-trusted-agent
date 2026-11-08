@@ -1,0 +1,13 @@
+[Unit]
+Description=Trusted Agent Stack on Vultr (control plane)
+After=docker.service network-online.target
+Requires=docker.service
+
+[Service]
+WorkingDirectory=/opt/tas/app
+EnvironmentFile=/opt/tas/env
+ExecStart=/opt/tas/venv/bin/uvicorn tas.app:app --host 0.0.0.0 --port 80
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
