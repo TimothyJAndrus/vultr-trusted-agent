@@ -6,6 +6,8 @@ Built for the lablab.ai × Vultr **Agent Rush** hackathon, Challenge 01 (*Blast 
 
 Live demo: **http://144.202.119.179** (single Vultr VM in Los Angeles)
 
+Deck: **[Blast Radius Zero: the Trusted Agent Stack (PDF, 10 slides)](docs/trusted-agent-stack-deck.pdf)**. It covers the problem, architecture, containment moment, the three policy-gate flows, measured results, market position, and what's next.
+
 ## What happens on every task
 
 ```
