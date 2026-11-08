@@ -79,7 +79,7 @@ This repo was written on Nov 8, 2026, during the event. It depends on **[agent-g
 - State is in memory. Restarting the service loses task history; the audit chain isn't persisted.
 - The demo approval UI has no authentication. Anyone with the URL can approve their own task. The real agent-guardrails service restricts approvers by identity (`allowed_approvers`).
 - The policy uses glob matching on command strings, so it's a speed bump, not a parser. `rm -rf` hidden in `$(printf ...)` would get past the approval rule. That's why the sandbox, not the gate, is the hard boundary.
-- The verifier is an LLM and can be wrong in both directions. It fails closed: if it doesn't return a verdict, the answer isn't marked verified.
+- The verifier is an LLM and can be wrong in both directions. In one of our recording takes it marked a correct, receipt-backed hash as UNSUPPORTED (a false alarm). We re-recorded that take; we did not tune the verifier to pass. It fails closed: if it doesn't return a verdict, the answer isn't marked verified.
 - HTTP only, no TLS, no domain.
 
 ## License
